@@ -1,14 +1,7 @@
 from flask import Flask, request, jsonify
-import configparser
+from config import BEARER_TOKEN 
 
 app = Flask(__name__)
-
-# Leia o arquivo de configuração
-config = configparser.ConfigParser()
-config.read('config.ini')
-
-# Puxe o token do arquivo de configuração
-BEARER_TOKEN = config['auth']['BEARER_TOKEN']
 
 @app.route('/')
 def home():

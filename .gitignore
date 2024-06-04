@@ -2,7 +2,7 @@
 *.log
 *.pyc
 __pycache__
-api/config.ini
+api/config.py
 
 # Environments 
 .env 

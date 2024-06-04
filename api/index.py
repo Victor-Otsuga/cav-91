@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import folium
 
 app = Flask(__name__)
 
@@ -23,17 +24,19 @@ def token_required(f):
         return f(*args, **kwargs)
     return decorator
 
+
+
 @app.route('/sum', methods=['POST'])
 @token_required
 def sum_values():
     data = request.get_json()
-    if 'value1' in data and 'value2' in data:
-        value1 = data['value1']
-        value2 = data['value2']
-        sum_result = value1 + value2
-        return jsonify({'sum': sum_result})
+    if 'long' in data and 'lat' in data:
+        long = data['long']
+        lat = data['lat']
+        m = folium.Map(location=(long, lat))
+        return jsonify(m)
     else:
-        return jsonify({'error': 'Both value1 and value2 are required'}), 400
+        return jsonify({'error': 'Both long and lat are required'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import folium
 import io
 from PIL import Image
@@ -41,9 +41,7 @@ def sum_values():
         img = Image.open(io.BytesIO(img_data))
         img.save('map.png')
 
-        return jsonify("/map.png")
+        return send_file('map.png', mimetype='image/png')
     else:
         return jsonify({'error': 'Both long and lat are required'}), 400
 
-if __name__ == '__main__':
-    app.run(debug=True)

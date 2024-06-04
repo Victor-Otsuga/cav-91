@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
-from config import BEARER_TOKEN 
 
 app = Flask(__name__)
+
+BEARER_TOKEN = "teste"
 
 @app.route('/')
 def home():

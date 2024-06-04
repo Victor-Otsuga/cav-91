@@ -8,7 +8,7 @@ def soma(a,b):
 
 def home():
     c = soma(1,2)
-    return c
+    return "teste"
 
 @app.route('/about')
 def about():

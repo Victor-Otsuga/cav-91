@@ -1,5 +1,8 @@
 from flask import Flask, request, jsonify
 import folium
+import io
+from PIL import Image
+
 
 app = Flask(__name__)
 
@@ -34,7 +37,10 @@ def sum_values():
         long = data['long']
         lat = data['lat']
         m = folium.Map(location=(long, lat))
-        m.save("map.png")
+        img_data = m._to_png(5)
+        img = Image.open(io.BytesIO(img_data))
+        img.save('map.png')
+
         return jsonify("/map.png")
     else:
         return jsonify({'error': 'Both long and lat are required'}), 400

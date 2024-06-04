@@ -40,12 +40,8 @@ def sum_values():
         long = data['long']
         lat = data['lat']
         m = folium.Map(location=(long, lat))
-        img_data = m._to_png(5)
-        img = Image.open(io.BytesIO(img_data))
         
-        img_path = 'map.png'
-        img.save(img_path)
-        
-        return jsonify({'image_path': img_path}), 200
+        m.save("../map.html")
+        return jsonify({'success': "map saved"}), 200 
     else:
         return jsonify({'error': 'Both long and lat are required'}), 400

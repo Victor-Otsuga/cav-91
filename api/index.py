@@ -40,7 +40,10 @@ def sum_values():
         long = data['long']
         lat = data['lat']
         m = folium.Map(location=(long, lat))
-        return send_file('index.py', mimetype='text/x-python')
-        return jsonify({'success': m}), 200 
+
+        html_string = m.get_root().render()
+
+        #return send_file('index.py', mimetype='text/x-python')
+        return html_string
     else:
         return jsonify({'error': 'Both long and lat are required'}), 400

@@ -34,7 +34,7 @@ def sum_values():
         long = data['long']
         lat = data['lat']
         m = folium.Map(location=(long, lat))
-        return jsonify(m)
+        return jsonify(long)
     else:
         return jsonify({'error': 'Both long and lat are required'}), 400
 

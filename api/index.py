@@ -29,6 +29,9 @@ def token_required(f):
 
 
 
+from flask import send_file
+import os
+
 @app.route('/sum', methods=['POST'])
 @token_required
 def sum_values():
@@ -39,9 +42,10 @@ def sum_values():
         m = folium.Map(location=(long, lat))
         img_data = m._to_png(5)
         img = Image.open(io.BytesIO(img_data))
-        img.save('map.png')
-
-        return send_file('map.png', mimetype='image/png')
+        
+        img_path = 'map.png'
+        img.save(img_path)
+        
+        return jsonify({'image_path': img_path}), 200
     else:
         return jsonify({'error': 'Both long and lat are required'}), 400
-

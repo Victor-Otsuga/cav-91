@@ -2,9 +2,13 @@ from flask import Flask
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods = ['POST'])
+def soma(a,b):
+    return a+b
+
 def home():
-    return 'Hello, World!2'
+    c = soma(1,2)
+    return c
 
 @app.route('/about')
 def about():

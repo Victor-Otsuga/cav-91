@@ -1,6 +1,14 @@
 from flask import Flask, request, jsonify
+import configparser
 
 app = Flask(__name__)
+
+# Leia o arquivo de configuração
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+# Puxe o token do arquivo de configuração
+BEARER_TOKEN = config['auth']['BEARER_TOKEN']
 
 @app.route('/')
 def home():
@@ -10,7 +18,19 @@ def home():
 def about():
     return 'About'
 
+def token_required(f):
+    def decorator(*args, **kwargs):
+        auth = request.headers.get('Authorization')
+        if not auth or not auth.startswith("Bearer "):
+            return jsonify({'error': 'Token ausente ou inválido'}), 401
+        token = auth.split(" ")[1]
+        if token != BEARER_TOKEN:
+            return jsonify({'error': 'Token inválido'}), 403
+        return f(*args, **kwargs)
+    return decorator
+
 @app.route('/sum', methods=['POST'])
+@token_required
 def sum_values():
     data = request.get_json()
     if 'value1' in data and 'value2' in data:

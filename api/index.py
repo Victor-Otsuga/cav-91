@@ -41,7 +41,6 @@ def sum_values():
         lat = data['lat']
         m = folium.Map(location=(long, lat))
         
-        m.save("tmp/map.html")
         m.save("../tmp/map.html")
         return jsonify({'success': "map saved"}), 200 
     else:

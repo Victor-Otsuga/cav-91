@@ -60,15 +60,18 @@ def sum_values():
 
         except (Exception, psycopg2.Error) as error:
             print(f"Failed to insert record into mobile table", error)
-
+            
         finally:
             # closing database connection.
             if connection:
                 cursor.close()
                 connection.close()
                 print("PostgreSQL connection is closed")
-
-        return jsonify({"Added to database": 200})
+                
+        if error:
+            return jsonify({"error": error}), 500
+        else:
+            return jsonify({"Added to database": 200})
     else:
         return jsonify({"error": "Both long and lat are required"}), 400
 

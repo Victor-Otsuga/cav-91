@@ -3,7 +3,6 @@
 *.pyc
 __pycache__
 api/config.py
-.env.development.local
 
 # Environments 
 .env 

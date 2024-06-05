@@ -49,7 +49,7 @@ def sum_values():
             cursor = connection.cursor()
 
             postgres_insert_query = (
-                """ IINSERT INTO reports ( longitude, latitude) VALUES (%s,%s)"""
+                """ INSERT INTO reports ( longitude, latitude) VALUES (%s,%s)"""
             )
             record_to_insert = ( long, lat)
             cursor.execute(postgres_insert_query, record_to_insert)

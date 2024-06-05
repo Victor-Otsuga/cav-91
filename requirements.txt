@@ -1,4 +1,3 @@
 Flask==3.0.0
 folium
-Python-IO
-Pillow
+psycopg2

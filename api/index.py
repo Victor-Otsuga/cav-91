@@ -34,6 +34,7 @@ def token_required(f):
 @app.route("/sum", methods=["POST"])
 @token_required
 def sum_values():
+    error = False
     data = request.get_json()
     if "long" in data and "lat" in data:
         long = data["long"]
@@ -56,10 +57,10 @@ def sum_values():
 
             connection.commit()
             count = cursor.rowcount
-            print(count, "Record inserted successfully into mobile table")
+            print(count, "Record inserted successfully into reports table")
 
         except (Exception, psycopg2.Error) as error:
-            print(f"Failed to insert record into mobile table", error)
+            print(f"Failed to insert record into reports table", error)
             
         finally:
             # closing database connection.

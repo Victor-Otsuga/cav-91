@@ -10,12 +10,7 @@ BEARER_TOKEN = "teste"
 
 @app.route("/")
 def home():
-    return "teste"
-
-
-@app.route("/about")
-def about():
-    return "About"
+    return "online"
 
 
 def token_required(f):

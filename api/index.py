@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, send_file
 import folium
 import psycopg2
-import json
 from datetime import datetime, timedelta
 
 app = Flask(__name__)

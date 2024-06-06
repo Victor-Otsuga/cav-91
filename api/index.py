@@ -1,17 +1,17 @@
 from flask import Flask, request, jsonify, send_file
+from flask_cors import CORS
 import folium
 import psycopg2
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
+CORS(app)  # Habilita CORS para todas as rotas
 
 BEARER_TOKEN = "teste"
-
 
 @app.route("/")
 def home():
     return "online"
-
 
 def token_required(f):
     def decorator(*args, **kwargs):
@@ -22,9 +22,7 @@ def token_required(f):
         if token != BEARER_TOKEN:
             return jsonify({"error": "Token inválido"}), 403
         return f(*args, **kwargs)
-
     return decorator
-
 
 @app.route("/report", methods=["POST"])
 @token_required
@@ -45,9 +43,9 @@ def add_report():
             cursor = connection.cursor()
 
             postgres_insert_query = (
-                """ INSERT INTO reports ( longitude, latitude) VALUES (%s,%s)"""
+                """ INSERT INTO reports (longitude, latitude) VALUES (%s, %s)"""
             )
-            record_to_insert = ( long, lat)
+            record_to_insert = (long, lat)
             cursor.execute(postgres_insert_query, record_to_insert)
 
             connection.commit()
@@ -55,17 +53,18 @@ def add_report():
             print(count, "Record inserted successfully into reports table")
 
         except (Exception, psycopg2.Error) as error:
-            print(f"Failed to insert record into reports table", error)
-            
+            print("Failed to insert record into reports table", error)
+            error = True
+
         finally:
-            # closing database connection.
+            # Fechar a conexão com o banco de dados
             if connection:
                 cursor.close()
                 connection.close()
                 print("PostgreSQL connection is closed")
-                
+
         if error:
-            return jsonify({"error": error}), 500
+            return jsonify({"error": "Failed to insert record"}), 500
         else:
             return jsonify({"Added to database": 200})
     else:
@@ -119,10 +118,9 @@ def iframe():
         m.get_root().height = "600px"
         iframe = m.get_root()._repr_html_()
         print("Records saved successfully into reports.json")
-        
+
     except (Exception, psycopg2.Error) as error:
-        
-        return(f"Failed to fetch records from reports table", error)
+        return jsonify({"error": "Failed to fetch records from reports table", "details": str(error)}), 500
 
     finally:
         # Fechar a conexão com o banco de dados
@@ -130,5 +128,7 @@ def iframe():
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-            return(iframe)
+            return iframe
 
+if __name__ == "__main__":
+    app.run(debug=True)

@@ -26,9 +26,9 @@ def token_required(f):
     return decorator
 
 
-@app.route("/insert", methods=["POST"])
+@app.route("/report", methods=["POST"])
 @token_required
-def sum_values():
+def add_report():
     error = False
     data = request.get_json()
     if "long" in data and "lat" in data:

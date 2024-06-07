@@ -43,9 +43,9 @@ def add_report():
             cursor = connection.cursor()
 
             postgres_insert_query = (
-                """ INSERT INTO reports (longitude, latitude) VALUES (%s, %s)"""
+                """ INSERT INTO reports (latitude, longitude) VALUES (%s, %s)"""
             )
-            record_to_insert = (long, lat)
+            record_to_insert = (lat, long)
             cursor.execute(postgres_insert_query, record_to_insert)
 
             connection.commit()
@@ -107,7 +107,7 @@ def iframe():
             timestamp_utc = datetime.fromisoformat(reports_list[i]['Timestamp'])
             timestamp_local = timestamp_utc - timedelta(hours=3)
             formatted_timestamp = timestamp_local.strftime("%Y-%m-%d %H:%M:%S")
-            folium.CircleMarker(location=[reports_list[i]['Longitude'], reports_list[i]['Latitude']],
+            folium.CircleMarker(location=[reports_list[i]['Latitude'], reports_list[i]['Longitude']],
                                 radius=radius,
                                 weight=1,
                                 color='red',

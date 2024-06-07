@@ -115,7 +115,7 @@ def iframe():
                                 fill_color='red',
                                 tooltip=f"Reportado em {formatted_timestamp} ").add_to(m)
         m.get_root().width = "100%"
-        m.get_root().height = "auto"
+        m.get_root().height = "100%"
         iframe = m.get_root()._repr_html_()
         print("Records saved successfully into reports.json")
 

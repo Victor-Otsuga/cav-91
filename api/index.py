@@ -83,7 +83,7 @@ def iframe():
 
         # Calcular o timestamp de 12 horas atrás
         current_time_utc = datetime.utcnow()
-        twelve_hours_ago = current_time_utc - timedelta(hours=12)
+        twelve_hours_ago = current_time_utc - timedelta(hours=48)
 
         # Consulta para selecionar as linhas adicionadas nas últimas 12 horas
         postgres_select_query = """SELECT * FROM reports WHERE timestamp >= %s"""

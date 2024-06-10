@@ -81,11 +81,11 @@ def iframe():
         )
         cursor = connection.cursor()
 
-        # Calcular o timestamp de 12 horas atrás
+        # Calcular o timestamp de 1000 horas atrás
         current_time_utc = datetime.utcnow()
-        twelve_hours_ago = current_time_utc - timedelta(hours=48)
+        twelve_hours_ago = current_time_utc - timedelta(hours=1000) 
 
-        # Consulta para selecionar as linhas adicionadas nas últimas 12 horas
+        # Consulta para selecionar as linhas adicionadas nas últimas horas
         postgres_select_query = """SELECT * FROM reports WHERE timestamp >= %s"""
         cursor.execute(postgres_select_query, (twelve_hours_ago,))
         records = cursor.fetchall()
